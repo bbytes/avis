@@ -30,7 +30,7 @@
 	</bean>
 	
 	<bean id="errorHandler"
-		class="com.bbytes.zorba.messaging.rabbitmq.listener.impl.QueueErrorHandlerImpl" />
+		class="com.bbytes.avis.rabbitmq.ErrorHandlerImpl" />
 		
 	<listener-container concurrency="1"
 		connection-factory="rabbitConnectionFactory" message-converter="jsonMessageConverter"

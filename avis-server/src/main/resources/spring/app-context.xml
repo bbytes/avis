@@ -21,11 +21,13 @@
 	</bean>
 	
 	<bean id="mailNotifier" class="com.bbytes.avis.notifications.MailNotifierImpl">
-		<property name="queueName" value="${queue.email}"></property>
+		<property name="requestQueueName" value="${queue.email.request}"></property>
+		<property name="replyQueueName" value="${queue.email.reply}"></property>
 	</bean>
 	
 	<import resource="rabbitmq-context.xml" />
 	<import resource="notification-context.xml"/>
+	
 	<task:annotation-driven executor="executor"
 		scheduler="scheduler" />
 	<task:executor id="executor" pool-size="15-30"

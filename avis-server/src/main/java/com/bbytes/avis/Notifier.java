@@ -32,17 +32,31 @@ public interface Notifier {
 	void sendResponse(NotificationResponse response) throws AvisException;
 
 	/**
-	 * Sets the queue-name
+	 * Sets the queue-name for request
 	 * @param queueName
 	 * @throws AvisException
 	 */
-	void setQueueName(String queueName) throws AvisException;
+	void setRequestQueueName(String queueName) throws AvisException;
 
 	/**
 	 * Returns the queue name
 	 * @return
 	 * @throws AvisException
 	 */
-	String getQueueName() throws AvisException;
+	String getRequestQueueName() throws AvisException;
+	
+	/**
+	 * Sets the queue-name for request
+	 * @param queueName
+	 * @throws AvisException
+	 */
+	void setReplyQueueName(String queueName) throws AvisException;
+
+	/**
+	 * Returns the queue name
+	 * @return
+	 * @throws AvisException
+	 */
+	String getReplyQueueName() throws AvisException;
 
 }

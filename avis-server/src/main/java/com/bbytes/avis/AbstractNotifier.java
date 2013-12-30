@@ -18,7 +18,9 @@ import com.bbytes.avis.exception.AvisException;
  */
 public abstract class AbstractNotifier implements Notifier {
 
-	private String queueName = null;
+	private String requestQueueName = null;
+	
+	private String replyQueueName = null;
 	
 	private Logger LOG = Logger.getLogger(AbstractNotifier.class);
 	
@@ -35,9 +37,9 @@ public abstract class AbstractNotifier implements Notifier {
 	@Async
 	@Scheduled(fixedDelay = 500)
 	public void consumeRequestFromQueue() throws AvisException {
-		final NotificationRequest request =  (NotificationRequest) rabbitOperations.receiveAndConvert(queueName);
+		final NotificationRequest request =  (NotificationRequest) rabbitOperations.receiveAndConvert(requestQueueName);
 		if(request != null) {
-			LOG.debug(String.format("Received Request from Queues %s with id %s and notification type %s", queueName, request.getId(), request.getNotificationType()));
+			LOG.debug(String.format("Received Request from Queues %s with id %s and notification type %s", requestQueueName, request.getId(), request.getNotificationType()));
 			executor.execute(new Runnable() {
 				@Override
 				public void run() {
@@ -52,20 +54,24 @@ public abstract class AbstractNotifier implements Notifier {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.bbytes.avis.messaging.Notifier#setQueueName(java.lang.String)
-	 */
 	@Override
-	public void setQueueName(String queueName) throws AvisException {
-		this.queueName = queueName;
+	public void setRequestQueueName(String queueName) throws AvisException {
+		this.requestQueueName = queueName;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.bbytes.avis.messaging.Notifier#getQueueName()
-	 */
 	@Override
-	public String getQueueName() throws AvisException {
-		return this.queueName;
+	public String getRequestQueueName() throws AvisException {
+		return this.requestQueueName;
+	}
+
+	@Override
+	public void setReplyQueueName(String queueName) throws AvisException {
+		this.replyQueueName = queueName;
+	}
+
+	@Override
+	public String getReplyQueueName() throws AvisException {
+		return this.replyQueueName;
 	}
 
 }
