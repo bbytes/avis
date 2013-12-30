@@ -1,0 +1,144 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.bbytes</groupId>
+	<artifactId>avis</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>avis</name>
+	<packaging>pom</packaging>
+
+	<description>
+		Avis is a multi purpose messaging framework based on queueing strategy
+	</description>
+
+	<developers>
+		<developer>
+			<name>Thanneermalai L</name>
+			<organization>Beyond Bytes Technologies Pvt Ltd</organization>
+			<email>tm@beyondbytes.co.in</email>
+			<url>www.beyondbytes.co.in</url>
+		</developer>
+		<developer>
+			<name>Dhanush Gopinath</name>
+			<organization>Beyond Bytes Technologies Pvt Ltd</organization>
+			<email>dhanush@beyondbytes.co.in</email>
+			<url>www.beyondbytes.co.in</url>
+		</developer>
+	</developers>
+
+	<properties>
+		<compiler.source.version>1.7</compiler.source.version>
+		<compiler.target.version>1.7</compiler.target.version>
+		<spring.version>3.2.0.RELEASE</spring.version>
+		<aspectj.version>1.6.11</aspectj.version>
+		<spring.amqp.version>1.1.4.RELEASE</spring.amqp.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Spring -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>commons-logging</artifactId>
+						<groupId>commons-logging</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aspects</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<!-- Logging -->
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.16</version>
+			</dependency>
+
+			<!-- Java Mail API -->
+			<dependency>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>1.4.3</version>
+			</dependency>
+
+			<!-- Misc -->
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+				<version>2.1</version>
+			</dependency>
+
+			<!-- Testing -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.8.1</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${spring.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-core-asl</artifactId>
+				<version>1.9.12</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>1.9.12</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-lgpl</artifactId>
+				<version>1.9.12</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.bbytes</groupId>
+				<artifactId>avis-domain</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>${compiler.source.version}</source>
+					<target>${compiler.target.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<modules>
+		<module>avis-domain</module>
+		<module>avis-server</module>
+		<module>avis-client</module>
+	</modules>
+</project>
