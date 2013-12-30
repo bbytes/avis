@@ -16,34 +16,20 @@
 package com.bbytes.avis;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 /**
- * The domain class which encapsulates the response send back by avis
- * 
+ * A {@link Serializable} wrapper around {@link HashMap} which will be used to pass the custom data.
+ *
  * @author Dhanush Gopinath
- * 
- * @version 0.0.1
+ *
+ * @version 
  */
-public class Response implements Serializable{
+@SuppressWarnings("hiding")
+public class NotificationData<String, T extends Serializable> extends HashMap<String, Serializable> {
 
-
-	private static final long serialVersionUID = -6754862309951736253L;
-	protected String id;
-	protected Data<String, Serializable> result;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public Data<String, Serializable> getResult() {
-		return result;
-	}
-
-	public void setResult(Data<String, Serializable> result) {
-		this.result = result;
-	}
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 }

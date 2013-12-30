@@ -24,16 +24,23 @@ import java.io.Serializable;
  * @version 0.0.1
  * 
  */
-public class Request implements Serializable{
+public class NotificationRequest implements Serializable{
 
 	private static final long serialVersionUID = -6789865933652864865L;
 
 	protected String id;
-	
 	protected String queueName;
+	protected NotificationData<String,Serializable> data;
+	protected NotificationType notificationType;
+
 	
-	protected Data<String,Serializable> data;
-	
+	public NotificationType getNotificationType() {
+		return notificationType;
+	}
+
+	public void setNotificationType(NotificationType notificationType) {
+		this.notificationType = notificationType;
+	}
 
 	public String getId() {
 		return id;
@@ -52,11 +59,11 @@ public class Request implements Serializable{
 		this.queueName = queueName;
 	}
 	
-	public Data<String,Serializable> getData() {
+	public NotificationData<String,Serializable> getData() {
 		return data;
 	}
 
-	public void setData(Data<String,Serializable> data) {
+	public void setData(NotificationData<String,Serializable> data) {
 		this.data = data;
 	}
 }

@@ -24,7 +24,7 @@ package com.bbytes.avis;
  * @version 0.0.1
  * 
  */
-public class AsyncRequest extends Request{
+public class AsyncNotificationRequest extends NotificationRequest{
 
 	private static final long serialVersionUID = -4670186306988893496L;
 	

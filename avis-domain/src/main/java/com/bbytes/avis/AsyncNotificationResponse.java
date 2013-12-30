@@ -22,7 +22,7 @@ package com.bbytes.avis;
  * @author Dhanush Gopinath
  * 
  */
-public class AsyncResponse extends Response {
+public class AsyncNotificationResponse extends NotificationResponse {
 
 	private static final long serialVersionUID = 6435597307710484854L;
 

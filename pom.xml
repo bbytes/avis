@@ -30,8 +30,7 @@
 		<compiler.source.version>1.7</compiler.source.version>
 		<compiler.target.version>1.7</compiler.target.version>
 		<spring.version>3.2.0.RELEASE</spring.version>
-		<aspectj.version>1.6.11</aspectj.version>
-		<spring.amqp.version>1.1.4.RELEASE</spring.amqp.version>
+		<spring.amqp.version>1.2.0.RELEASE</spring.amqp.version>
 	</properties>
 
 	<dependencyManagement>
@@ -64,6 +63,16 @@
 				<version>${spring.version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>org.springframework.amqp</groupId>
+				<artifactId>spring-amqp</artifactId>
+				<version>${spring.amqp.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.amqp</groupId>
+				<artifactId>spring-rabbit</artifactId>
+				<version>${spring.amqp.version}</version>
+			</dependency>
 			<!-- Logging -->
 			<dependency>
 				<groupId>log4j</groupId>
@@ -113,7 +122,7 @@
 				<artifactId>jackson-mapper-lgpl</artifactId>
 				<version>1.9.12</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>com.bbytes</groupId>
 				<artifactId>avis-domain</artifactId>
@@ -135,7 +144,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<modules>
 		<module>avis-domain</module>
 		<module>avis-server</module>
