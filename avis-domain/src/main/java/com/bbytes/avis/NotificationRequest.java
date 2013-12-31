@@ -50,7 +50,6 @@ public class NotificationRequest implements Serializable{
 		this.id = id;
 	}
 
-
 	public String getQueueName() {
 		return queueName;
 	}

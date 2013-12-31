@@ -39,7 +39,12 @@ public abstract class AbstractNotifier implements Notifier {
 	public void consumeRequestFromQueue() throws AvisException {
 		final NotificationRequest request =  (NotificationRequest) rabbitOperations.receiveAndConvert(requestQueueName);
 		if(request != null) {
-			LOG.debug(String.format("Received Request from Queues %s with id %s and notification type %s", requestQueueName, request.getId(), request.getNotificationType()));
+			LOG.debug(String.format("Received Request from Queue %s with id %s and notification type %s", requestQueueName, request.getId(), request.getNotificationType()));
+			if(!request.getQueueName().equals(requestQueueName)) {
+				String message = String.format("Received Request from Queue %s is not matching with the queue name set on request %s", requestQueueName, request.getQueueName());
+				LOG.error(message);
+				throw new AvisException(message);
+			}
 			executor.execute(new Runnable() {
 				@Override
 				public void run() {
