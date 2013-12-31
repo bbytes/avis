@@ -74,4 +74,11 @@ public abstract class AbstractNotifier implements Notifier {
 		return this.replyQueueName;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.bbytes.avis.Notifier#sendResponse(com.bbytes.avis.NotificationResponse)
+	 */
+	@Override
+	public void sendResponse(NotificationResponse response) throws AvisException {
+		rabbitOperations.convertAndSend(replyQueueName, response);
+	}
 }
