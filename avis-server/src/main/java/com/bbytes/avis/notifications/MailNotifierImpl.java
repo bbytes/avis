@@ -51,7 +51,7 @@ public class MailNotifierImpl extends AbstractNotifier implements Notifier {
 			return;
 		}
 		
-		EmailData emailData = (EmailData) data.get(NotificationType.EMAIL);
+		EmailData emailData = (EmailData) data.get(NotificationType.EMAIL.toString());
 		if(emailData == null) {
 			LOG.error("Email data is null");
 			return;
