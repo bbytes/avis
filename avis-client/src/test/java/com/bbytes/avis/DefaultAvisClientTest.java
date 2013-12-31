@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.bbytes.avis.data.EmailData;
 
 /**
- * Test class for {@link RabbitMQSender}
+ * Test class for {@link AvisClient}
  * 
  * @author Dhanush Gopinath
  * 
@@ -32,6 +32,7 @@ public class DefaultAvisClientTest {
 		request = new NotificationRequest();
 		request.setId(UUID.randomUUID().toString());
 		request.setNotificationType(NotificationType.EMAIL);
+		request.setQueueName("avis.email.queue");
 		NotificationData<String, Serializable> requestData = new NotificationData<>();
 		EmailData data = new EmailData();
 		data.setTo("dhanush@beyondbytes.co.in");
