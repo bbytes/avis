@@ -19,7 +19,7 @@
 	</bean>
 	<rabbit:admin id="amqpAdmin" auto-startup="true" connection-factory="rabbitConnectionFactory" />
 	
-	<bean id="avisObjectMapper" class="com.bbytes.avis.json.NotificationDataObjectMapper">
+	<bean id="avisObjectMapper" class="com.bbytes.avis.data.json.NotificationDataObjectMapper">
 	</bean>
 
 	<bean id="jsonMessageConverter"
