@@ -20,7 +20,7 @@ import com.bbytes.avis.data.EmailData;
  * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/spring/app-context.xml" })
+@ContextConfiguration(locations = { "classpath:/spring/avis-client-app-context.xml" })
 public class DefaultAvisClientTest {
 
 	@Autowired
