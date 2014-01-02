@@ -19,8 +19,12 @@
 	</bean>
 	<rabbit:admin id="amqpAdmin" auto-startup="true" connection-factory="rabbitConnectionFactory" />
 	
+	<bean id="avisObjectMapper" class="com.bbytes.avis.json.AvisObjectMapper">
+	</bean>
+
 	<bean id="jsonMessageConverter"
 		class="org.springframework.amqp.support.converter.JsonMessageConverter">
+		<property name="jsonObjectMapper" ref="avisObjectMapper"/>
 	</bean>
 
 	<!-- A template for sending messages and performing other commands to RabbitMQ -->

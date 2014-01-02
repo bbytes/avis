@@ -10,6 +10,9 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd">
 
+	
+	<context:spring-configured />
+	<context:annotation-config />
 
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -19,21 +22,34 @@
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="mailNotifier" class="com.bbytes.avis.notifications.MailNotifierImpl">
-		<property name="requestQueueName" value="${queue.email.request}"></property>
-		<property name="replyQueueName" value="${queue.email.reply}"></property>
-	</bean>
-	
-	<import resource="rabbitmq-context.xml" />
-	<import resource="notification-context.xml"/>
-	
-	<task:annotation-driven executor="executor"
-		scheduler="scheduler" />
+
 	<task:executor id="executor" pool-size="15-30"
 		queue-capacity="100" />
 	<task:scheduler id="scheduler" pool-size="20" />
 
+	<task:annotation-driven executor="executor"
+		scheduler="scheduler" />
+
+
+<!-- 	<bean id="notificationExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="10" />
+		<property name="maxPoolSize" value="100" />
+		<property name="queueCapacity" value="10" />
+	</bean> -->
+
+	<import resource="rabbitmq-context.xml" />
+	<import resource="notification-context.xml" />
+
+	<bean id="abstractNotifier" abstract="true"
+		class="com.bbytes.avis.AbstractNotifier">
+	</bean>
+
+	<bean id="mailNotifier" class="com.bbytes.avis.notifications.MailNotifierImpl"
+		parent="abstractNotifier">
+		<property name="requestQueueName" value="${queue.email.request}"></property>
+		<property name="replyQueueName" value="${queue.email.reply}"></property>
+	</bean>
 
 
 </beans>

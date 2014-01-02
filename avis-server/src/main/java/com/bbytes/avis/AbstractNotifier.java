@@ -11,51 +11,62 @@ import com.bbytes.avis.exception.AvisException;
 
 /**
  * Abstract implementation of {@link Notifier} interface
- *
+ * 
  * @author Dhanush Gopinath
- *
- * @version 
+ * 
+ * @version
  */
 public abstract class AbstractNotifier implements Notifier {
 
 	private String requestQueueName = null;
-	
-	private String replyQueueName = null;
-	
-	private Logger LOG = Logger.getLogger(AbstractNotifier.class);
-	
-	@Autowired
-	protected RabbitOperations rabbitOperations;
-	
-	@Autowired
-	protected TaskExecutor executor;
 
-	/* (non-Javadoc)
+	private String replyQueueName = null;
+
+	private Logger LOG = Logger.getLogger(AbstractNotifier.class);
+
+	@Autowired
+	private RabbitOperations rabbitOperations;
+
+	@Autowired
+	private TaskExecutor executor;
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.bbytes.avis.messaging.Notifier#consumeRequestFromQueue()
 	 */
 	@Override
 	@Async
-	@Scheduled(fixedDelay = 500)
+	@Scheduled(fixedDelay = 3000)
 	public void consumeRequestFromQueue() throws AvisException {
-		final NotificationRequest request =  (NotificationRequest) rabbitOperations.receiveAndConvert(requestQueueName);
-		if(request != null) {
-			LOG.debug(String.format("Received Request from Queue %s with id %s and notification type %s", requestQueueName, request.getId(), request.getNotificationType()));
-			if(!request.getQueueName().equals(requestQueueName)) {
-				String message = String.format("Received Request from Queue %s is not matching with the queue name set on request %s", requestQueueName, request.getQueueName());
-				LOG.error(message);
-				throw new AvisException(message);
-			}
-			executor.execute(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						LOG.debug("Sending notification");
-						sendNotification(request);
-					} catch (AvisException e) {
-						LOG.error(e.getMessage());
-					}
+		try {
+			final NotificationRequest request = (NotificationRequest) rabbitOperations
+					.receiveAndConvert(requestQueueName);
+			if (request != null) {
+				LOG.debug(String.format("Received Request from Queue %s with id %s and notification type %s",
+						requestQueueName, request.getId(), request.getNotificationType()));
+				if (!request.getQueueName().equals(requestQueueName)) {
+					String message = String.format(
+							"Received Request from Queue %s is not matching with the queue name set on request %s",
+							requestQueueName, request.getQueueName());
+					LOG.error(message);
+					throw new AvisException(message);
 				}
-			});
+				executor.execute(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							LOG.debug("Sending notification");
+							sendNotification(request);
+						} catch (AvisException e) {
+							LOG.error(e.getMessage());
+						}
+					}
+				});
+			}
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+			LOG.error(e.getStackTrace()[0].toString());
 		}
 	}
 
@@ -79,11 +90,27 @@ public abstract class AbstractNotifier implements Notifier {
 		return this.replyQueueName;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.bbytes.avis.Notifier#sendResponse(com.bbytes.avis.NotificationResponse)
 	 */
 	@Override
 	public void sendResponse(NotificationResponse response) throws AvisException {
 		rabbitOperations.convertAndSend(replyQueueName, response);
+	}
+
+	/**
+	 * @return the rabbitOperations
+	 */
+	public RabbitOperations getRabbitOperations() {
+		return rabbitOperations;
+	}
+
+	/**
+	 * @return the executor
+	 */
+	public TaskExecutor getExecutor() {
+		return executor;
 	}
 }

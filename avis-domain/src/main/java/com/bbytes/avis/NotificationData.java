@@ -26,9 +26,9 @@ import java.util.HashMap;
 @SuppressWarnings("hiding")
 public class NotificationData<String, T extends Serializable> extends HashMap<String, Serializable> {
 
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4310032127577022403L;
+
 }

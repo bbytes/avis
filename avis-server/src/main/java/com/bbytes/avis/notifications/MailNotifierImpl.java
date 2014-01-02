@@ -31,6 +31,13 @@ public class MailNotifierImpl extends AbstractNotifier implements Notifier {
 	@Autowired
 	private MailSender mailSender;
 	
+	
+	
+	public MailNotifierImpl() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	/* (non-Javadoc)
 	 * @see com.bbytes.avis.Notifier#sendNotification(com.bbytes.avis.Request)
 	 */
@@ -57,6 +64,7 @@ public class MailNotifierImpl extends AbstractNotifier implements Notifier {
 			return;
 		}
 		sendEmail(emailData);
+		LOG.debug("Notification sent via "+NotificationType.EMAIL);
 		NotificationResponse response = new NotificationResponse();
 		NotificationData<String, Serializable> responseData = new NotificationData<>();
 		responseData.put("status", "Email Sent");

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.bbytes.avis.AbstractNotifier;
 import com.bbytes.avis.NotificationData;
 import com.bbytes.avis.NotificationRequest;
 import com.bbytes.avis.NotificationType;
@@ -40,7 +41,7 @@ public class MailNotifierImplTest {
 		request.setNotificationType(NotificationType.EMAIL);
 		NotificationData<String, Serializable> requestData = new NotificationData<>();
 		EmailData data = new EmailData();
-		data.setTo("dhanush@beyondbytes.co.in");
+		data.setTo(new String[]{"dhanush@beyondbytes.co.in"});
 		data.setSubject("Test Email From Avis");
 		data.setText("This is a test email from avis" );
 		requestData.put(NotificationType.EMAIL.toString(), data);
@@ -49,6 +50,8 @@ public class MailNotifierImplTest {
 	
 	@Test
 	public void testSendNotification() throws AvisException {
+//		System.out.println(((AbstractNotifier) mailNotifier).getRabbitOperations());
+//		System.out.println(((AbstractNotifier) mailNotifier).getExecutor());
 		mailNotifier.sendNotification(request );
 	}
 }

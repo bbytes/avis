@@ -35,7 +35,7 @@ public class DefaultAvisClientTest {
 		request.setQueueName("avis.email.queue");
 		NotificationData<String, Serializable> requestData = new NotificationData<>();
 		EmailData data = new EmailData();
-		data.setTo("dhanush@beyondbytes.co.in");
+		data.setTo(new String[]{"dhanush@beyondbytes.co.in"});
 		data.setSubject("Test Email From Avis");
 		data.setText("This is a test email from avis");
 		requestData.put(NotificationType.EMAIL.toString(), data);

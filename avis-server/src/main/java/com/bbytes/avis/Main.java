@@ -24,7 +24,7 @@ public class Main {
 		try {
 			LOG.info("Starting Avis Server....");
 			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-					new String[] { "classpath:spring/app-context.xml" }, false);
+					new String[] { "classpath:/spring/app-context.xml" }, false);
 			// LOG.debug("context file loaded successfully");
 			// context.getEnvironment().getPropertySources()
 			// .addFirst(new ResourcePropertySource("classpath:revealConf/reveal_app.properties"));

@@ -26,19 +26,14 @@
 		class="org.springframework.amqp.support.converter.JsonMessageConverter">
 		<property name="jsonObjectMapper" ref="avisObjectMapper"/>
 	</bean>
+	
+	<!--  Queues declared here only for testing -->
+	<rabbit:queue id="queue.email.request" name="${queue.email.request}" />
+	<rabbit:queue id="queue.email.request." name="${queue.email.reply}" />
 
 	<!-- A template for sending messages and performing other commands to RabbitMQ -->
 	<bean id="rabbitTemplate" class="org.springframework.amqp.rabbit.core.RabbitTemplate"
 		p:connectionFactory-ref="rabbitConnectionFactory"
 		p:messageConverter-ref="jsonMessageConverter">
 	</bean>
-	
-	<bean id="errorHandler"
-		class="com.bbytes.avis.rabbitmq.ErrorHandlerImpl" />
-		
-	<listener-container concurrency="1"
-		connection-factory="rabbitConnectionFactory" message-converter="jsonMessageConverter"
-		error-handler="errorHandler" xmlns="http://www.springframework.org/schema/rabbit">
-	</listener-container>
-	
 </beans>

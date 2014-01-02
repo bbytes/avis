@@ -3,6 +3,8 @@ package com.bbytes.avis.data;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+
 import com.bbytes.avis.NotificationData;
 import com.bbytes.avis.NotificationRequest;
 
@@ -16,6 +18,7 @@ import com.bbytes.avis.NotificationRequest;
  * 
  * @version
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 public class EmailData implements Serializable {
 
 	/**
@@ -85,15 +88,6 @@ public class EmailData implements Serializable {
 	}
 
 	/**
-	 * Overloaded method to use in case of single email id
-	 * 
-	 * @param to
-	 */
-	public void setTo(String to) {
-		this.to = new String[] { to };
-	}
-
-	/**
 	 * @return the cc
 	 */
 	public String[] getCc() {
@@ -106,10 +100,6 @@ public class EmailData implements Serializable {
 	 */
 	public void setCc(String[] cc) {
 		this.cc = cc;
-	}
-
-	public void setCc(String cc) {
-		this.cc = new String[] { cc };
 	}
 
 	/**
@@ -125,10 +115,6 @@ public class EmailData implements Serializable {
 	 */
 	public void setBcc(String[] bcc) {
 		this.bcc = bcc;
-	}
-
-	public void setBcc(String bcc) {
-		this.bcc = new String[] { bcc };
 	}
 
 	/**
