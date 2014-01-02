@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.bbytes.avis.AbstractNotifier;
 import com.bbytes.avis.NotificationData;
 import com.bbytes.avis.NotificationRequest;
 import com.bbytes.avis.NotificationType;
@@ -20,7 +19,7 @@ import com.bbytes.avis.exception.AvisException;
 
 
 /**
- * 
+ * Unit test for {@link MailNotifierImpl}
  *
  * @author Dhanush Gopinath
  *
@@ -50,8 +49,6 @@ public class MailNotifierImplTest {
 	
 	@Test
 	public void testSendNotification() throws AvisException {
-//		System.out.println(((AbstractNotifier) mailNotifier).getRabbitOperations());
-//		System.out.println(((AbstractNotifier) mailNotifier).getExecutor());
 		mailNotifier.sendNotification(request );
 	}
 }
