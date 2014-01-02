@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.bbytes.avis.json;
+package com.bbytes.avis.data.json;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -41,16 +41,16 @@ import com.bbytes.avis.NotificationData;
  * @version 0.0.1
  * @since 0.0.1
  */
-public class AvisDataDeserializer extends JsonDeserializer<NotificationData<String, Serializable>> {
+public class NotificationDataDeserializer extends JsonDeserializer<NotificationData<String, Serializable>> {
 
-	private AvisObjectMapper avisObjectMapper;
-	private static final Logger log = Logger.getLogger(AvisDataDeserializer.class);
+	private NotificationDataObjectMapper avisObjectMapper;
+	private static final Logger log = Logger.getLogger(NotificationDataDeserializer.class);
 
 	/**
 	 * @param avisObjectMapper
 	 * @param T
 	 */
-	public AvisDataDeserializer(AvisObjectMapper avisObjectMapper) {
+	public NotificationDataDeserializer(NotificationDataObjectMapper avisObjectMapper) {
 		this.avisObjectMapper = avisObjectMapper;
 	}
 

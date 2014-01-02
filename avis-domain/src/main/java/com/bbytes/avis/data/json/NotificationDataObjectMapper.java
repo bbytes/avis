@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.bbytes.avis.json;
+package com.bbytes.avis.data.json;
 
 import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -21,31 +21,31 @@ import org.codehaus.jackson.map.module.SimpleModule;
 import com.bbytes.avis.NotificationData;
 
 /**
- * The {@link AvisObjectMapper} extends {@link ObjectMapper} to provide its own serializer and
+ * The {@link NotificationDataObjectMapper} extends {@link ObjectMapper} to provide its own serializer and
  * deserializer for the {@link NotificationData} object that is passed along with {@link NotificationRequest} and
  * {@link NotificationResponse}
  * 
- * @see AvisDataDeserializer
- * @see AvisDataSerializer
+ * @see NotificationDataDeserializer
+ * @see NotificationDataSerializer
  * 
  * @author Dhanush Gopinath
  * 
  * @version 0.0.1
  * @since 0.0.1
  */
-public class AvisObjectMapper extends ObjectMapper {
+public class NotificationDataObjectMapper extends ObjectMapper {
 
 	/**
 	 * Default Constructor
 	 */
-	public AvisObjectMapper() {
+	public NotificationDataObjectMapper() {
 		super();
 		// set the serialization config object without the feature FAIL_ON_EMPTY_BEANS so that the
 		// serialization will pass when there is empty objects with out serializers
 		setSerializationConfig(getSerializationConfig().without(Feature.FAIL_ON_EMPTY_BEANS));
 		SimpleModule avisModule = new SimpleModule("avis", new Version(0, 0, 1, "SNAPSHOT"));
-		avisModule.addSerializer(new AvisDataSerializer(this));
-		avisModule.addDeserializer(NotificationData.class, new AvisDataDeserializer(this));
+		avisModule.addSerializer(new NotificationDataSerializer(this));
+		avisModule.addDeserializer(NotificationData.class, new NotificationDataDeserializer(this));
 		registerModule(avisModule);
 	}
 }

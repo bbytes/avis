@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.bbytes.avis.json;
+package com.bbytes.avis.data.json;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -41,17 +41,17 @@ import com.bbytes.avis.NotificationData;
  * @since 0.0.1
  */
 @SuppressWarnings("rawtypes")
-public class AvisDataSerializer extends JsonSerializer<NotificationData> {
+public class NotificationDataSerializer extends JsonSerializer<NotificationData> {
 
 	protected Class<NotificationData> _handledType = NotificationData.class;
 
-	private AvisObjectMapper avisObjectMapper;
+	private NotificationDataObjectMapper avisObjectMapper;
 
 	/**
 	 * @param avisObjectMapper
 	 * @param T
 	 */
-	public AvisDataSerializer(AvisObjectMapper avisObjectMapper) {
+	public NotificationDataSerializer(NotificationDataObjectMapper avisObjectMapper) {
 		this.avisObjectMapper = avisObjectMapper;
 	}
 
