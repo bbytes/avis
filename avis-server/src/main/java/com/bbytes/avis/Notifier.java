@@ -4,7 +4,7 @@ import com.bbytes.avis.NotificationRequest;
 import com.bbytes.avis.exception.AvisException;
 
 /**
- * 
+ * The interface for implementing a type of notification
  * 
  * @author Dhanush Gopinath
  * 
