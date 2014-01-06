@@ -3,13 +3,16 @@ package com.bbytes.avis.data;
 import java.io.Serializable;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+
 /**
- * 
+ * POJO class for encapsulating Data required for sending push notifications to via GCM
  *
  * @author Dhanush Gopinath
  *
  * @version 
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 public class GcmData implements Serializable {
 
 	/**
