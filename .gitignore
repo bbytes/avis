@@ -41,3 +41,4 @@ target/
 /avis-server/*.log
 /avis-domain/src/main/java/META-INF/*.MF
 /avis-client/src/main/java/META-INF/*.MF
+/avis-server/*.log.*

@@ -31,6 +31,7 @@
 		<compiler.target.version>1.7</compiler.target.version>
 		<spring.version>3.2.0.RELEASE</spring.version>
 		<spring.amqp.version>1.2.0.RELEASE</spring.amqp.version>
+		<gcm.version>1.0.2</gcm.version>
 	</properties>
 
 	<dependencyManagement>
@@ -115,6 +116,17 @@
 				<groupId>org.codehaus.jackson</groupId>
 				<artifactId>jackson-mapper-lgpl</artifactId>
 				<version>1.9.12</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.android.gcm</groupId>
+				<artifactId>gcm-server</artifactId>
+				<version>${gcm.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.googlecode.json-simple</groupId>
+				<artifactId>json-simple</artifactId>
+				<version>1.1</version>
 			</dependency>
 
 			<dependency>

@@ -51,5 +51,13 @@
 		<property name="replyQueueName" value="${queue.email.reply}"></property>
 	</bean>
 
+	<bean id="gcmPushNotifier" class="com.bbytes.avis.notifications.GcmPushNotifierImpl"
+		parent="abstractNotifier">
+		<property name="requestQueueName" value="${queue.gcm.request}"></property>
+		<property name="replyQueueName" value="${queue.gcm.reply}"></property>
+		<property name="apiKey" value="${gcm.api.key}"></property>
+		<property name="senderId" value="${gcm.sender.id}"></property>
+	</bean>
+	
 
 </beans>
