@@ -2,6 +2,7 @@ package com.bbytes.avis.notifications;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -13,6 +14,7 @@ import com.bbytes.avis.Notifier;
 import com.bbytes.avis.data.GcmData;
 import com.bbytes.avis.exception.AvisException;
 import com.google.android.gcm.server.Message;
+import com.google.android.gcm.server.Message.Builder;
 import com.google.android.gcm.server.Sender;
 
 /**
@@ -59,8 +61,29 @@ public class GcmPushNotifierImpl extends AbstractNotifier implements Notifier {
 		}
 		LOG.debug(String.format("Message recieved to push. Pushing notification to %s devices", gcmData
 				.getRegisteredDeviceIds().size()));
+		push(gcmData);
+	}
+
+	/**
+	 * Pushes the GcmData to Google Cloud Messaging Server
+	 * @param gcmData
+	 */
+	private void push(GcmData gcmData) {
 		Sender sender = new Sender(apiKey);
-		Message message = new Message.Builder().addData("message", gcmData.getMessage()).build();
+		//build the basic message object with the message and activity classname
+		Builder messageBuilder = new Message.Builder().
+				addData("message", gcmData.getMessage()).
+				addData("activityClassName", gcmData.getActivityClassName());
+		
+		Map<String, String> activityParams = gcmData.getActivityParams();
+		//iterate and add the activity parameters if there are any
+		if(activityParams!=null && !activityParams.isEmpty()) {
+			for(String key : activityParams.keySet()){
+				messageBuilder.addData(key, activityParams.get(key));
+			}
+		}
+		//build the message
+		Message message = messageBuilder.build();
 		try {
 			sender.send(message, gcmData.getRegisteredDeviceIds(), 5);
 			LOG.debug(String.format("Message pushed"));
