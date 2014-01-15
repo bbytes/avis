@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.support.ResourcePropertySource;
 
 /**
  * Main class for Avis Server
@@ -25,9 +26,8 @@ public class Main {
 			LOG.info("Starting Avis Server....");
 			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 					new String[] { "classpath:/spring/app-context.xml" }, false);
-			// LOG.debug("context file loaded successfully");
-			// context.getEnvironment().getPropertySources()
-			// .addFirst(new ResourcePropertySource("classpath:revealConf/reveal_app.properties"));
+			LOG.debug("context file loaded successfully");
+			context.getEnvironment().getPropertySources().addFirst(new ResourcePropertySource("classpath:server.properties"));
 			LOG.debug("property file loaded successfully");
 			context.refresh();
 			LOG.debug("context file refreshed successfully");
