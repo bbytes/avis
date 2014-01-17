@@ -17,13 +17,12 @@ import com.bbytes.avis.Notifier;
 import com.bbytes.avis.data.EmailData;
 import com.bbytes.avis.exception.AvisException;
 
-
 /**
  * Unit test for {@link MailNotifierImpl}
- *
+ * 
  * @author Dhanush Gopinath
- *
- * @version 
+ * 
+ * @version
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:/spring/app-context.xml")
@@ -32,23 +31,36 @@ public class MailNotifierImplTest {
 	@Autowired
 	private Notifier mailNotifier;
 	private NotificationRequest request;
-	
+
 	@Before
-	public void setup()  {
+	public void setup() {
 		request = new NotificationRequest();
 		request.setId(UUID.randomUUID().toString());
 		request.setNotificationType(NotificationType.EMAIL);
 		NotificationData<String, Serializable> requestData = new NotificationData<>();
 		EmailData data = new EmailData();
-		data.setTo(new String[]{"dhanush@beyondbytes.co.in"});
+		data.setFrom("endure@endure.com");
+		data.setTo(new String[] { "dhanush@beyondbytes.co.in" });
 		data.setSubject("Test Email From Avis");
-		data.setText("This is a test email from avis" );
+		data.setText("This is a test email from avis");
 		requestData.put(NotificationType.EMAIL.toString(), data);
 		request.setData(requestData);
 	}
-	
+
 	@Test
 	public void testSendNotification() throws AvisException {
-		mailNotifier.sendNotification(request );
+		mailNotifier.sendNotification(request);
 	}
+
+	@Test
+	public void testSendNotificationHTML() throws AvisException {
+		NotificationData<String, Serializable> requestData = request.getData();
+		EmailData data = (EmailData) requestData.get(NotificationType.EMAIL.toString());
+		data.setHtmlEmail(true);
+		data.setText("<h1>Hello World, This is Sparta!! </h1>");
+		requestData.put(NotificationType.EMAIL.toString(), data);
+		request.setData(requestData);
+		mailNotifier.sendNotification(request);
+	}
+
 }

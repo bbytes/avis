@@ -41,7 +41,9 @@ public class EmailData implements Serializable {
 	private String subject;
 
 	private String text;
-
+	
+	private boolean htmlEmail;
+	
 	/**
 	 * @return the from
 	 */
@@ -160,6 +162,20 @@ public class EmailData implements Serializable {
 	 */
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	/**
+	 * @return the htmlEmail
+	 */
+	public boolean isHtmlEmail() {
+		return htmlEmail;
+	}
+
+	/**
+	 * @param htmlEmail the htmlEmail to set
+	 */
+	public void setHtmlEmail(boolean htmlEmail) {
+		this.htmlEmail = htmlEmail;
 	}
 
 }
