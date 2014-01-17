@@ -18,7 +18,7 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:META-INF/server.properties</value>
+				<value>classpath:server.properties</value>
 			</list>
 		</property>
 	</bean>
