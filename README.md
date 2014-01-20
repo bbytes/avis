@@ -4,6 +4,10 @@
 
 Avis project is a client-server project, where the client can be used by 3rd party application who wish to send notifications. It has 3 sub-projects under the main parent Maven project. Client and Server sit on either side of a RabbitMQ messaging server. Server looks for notifications in different queues based on the implementations given.
 
+**Current Stable Release Version  - 0.0.1**
+
+**Current Development Version  - 0.0.2-SNAPSHOT**
+
 ## Server ##
 
 To run the server, just run the `Main.java` file after setting the following mandatory properties in `server.properties` file. These values denote where your RabbitMQ Server is and how you intend to access it.
@@ -132,4 +136,51 @@ This project contains all the domain specific POJO classes which are used to tra
 
 
 `EmailData` is a POJO class which captures the Email information that needs to be send. This is then set on the `NotificationData` instance before sending the notification.
-  
+
+### Running Maven Release Plugin ###
+
+Running the maven release plugin, requires the user to have ssh_keys in his/her system as we have to access the Github Repo. Please see the [link](https://help.github.com/articles/generating-ssh-keys) for generating ssh-keys.
+
+To upgrade the version and cut a release build - run the following commands on command prompt
+
+     mvn release:prepare -DdryRun=true 
+
+This will walk you through a dry run and you can view the temporary POMs it creates to verify you did everything correctly. It is not mandatory to do this, if you are confident.
+    
+    mvn release:clean release:prepare
+
+This will actually commit a tag with non-snapshot versions of your project and also increment all your versions to the next release. So for example, if your current version is 0.0.1-SNAPSHOT, it will commit a tag with 0.0.1 version, and update the trunk POMs with 0.0.2-SNAPSHOT. Of course when using the prepare goal you are prompted for the release numbers and next release numbers. Please note, you need to add `git` command in the path to run this.
+
+***Issues with running in Windows***
+
+When running the above command in Windows, it hands after the git push. This is because of the ssh key passphrase not being entered. As a work around to this do the following on a command prompt.
+
+Run the command from `Git/bin` folder
+
+    ssh-agent
+
+ After you run it, it outputs some environment variables that you need to set. For example:
+
+    SSH_AUTH_SOCK=/tmp/ssh-LhiYjP7924/agent.7924; export SSH_AUTH_SOCK;
+    SSH_AGENT_PID=2792; export SSH_AGENT_PID;
+    echo Agent pid 2792;
+
+
+So, you need to place these in your environment:
+
+    C:\> set SSH_AUTH_SOCK=/tmp/ssh-LhiYjP7924/agent.7924
+    C:\> set SSH_AGENT_PID=2792
+
+Then, you will need to add a passphrase for your particular key file. So, the command is:
+
+    ssh-add
+
+This will prompt to enter the passphrase which you used to create ssh_keys
+
+    Enter passphrase for /c/Users/<windows_username>/.ssh/id_rsa:
+
+Once entered you should see an Identity added message. Now, the agent knows the passphrase so that you will not be prompted to specify it anymore.
+
+If you have multiple instances of command prompts, make sure that each command prompt has the appropriate `SSH_AUTH_SOCK` and `SSH_AGENT_PID` environment variables set. You can validate that this is working by running a command like `ssh -v git@github.com` and if you DO NOT get prompted for a passphrase, it is working!
+
+Note that when you logoff, the `ssh-agent` will shut down and so when you log back in or restart your computer, you will need to repeat these steps.
