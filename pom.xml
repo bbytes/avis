@@ -14,7 +14,7 @@
 	<scm>
 		<url>https://github.com/bbytes/avis</url>
 		<connection>scm:git:git://github.com/bbytes/avis.git</connection>
-		<developerConnection>scm:git:git@github.com:bbytes/avis.git</developerConnection>
+		<developerConnection>scm:git:ssh://git@github.com:bbytes/avis.git</developerConnection>
 	</scm>
 
 	<developers>
