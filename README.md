@@ -151,6 +151,20 @@ This will walk you through a dry run and you can view the temporary POMs it crea
 
 This will actually commit a tag with non-snapshot versions of your project and also increment all your versions to the next release. So for example, if your current version is 0.0.1-SNAPSHOT, it will commit a tag with 0.0.1 version, and update the trunk POMs with 0.0.2-SNAPSHOT. Of course when using the prepare goal you are prompted for the release numbers and next release numbers. Please note, you need to add `git` command in the path to run this.
 
+Finally deploy and perform the release by running the command :
+    
+    mvn release:perform -Darguments="-DskipTests=true -Dmaven.javadoc.skip=true"
+
+For this command to run successfully your Maven settings.xml should have the authentication information to loginto Nexus. Please add the `<servers>` entry in the xml
+
+    <servers>
+      <server>
+       	<id>releases</id>
+       	<username>USERNAME_FOR_NEXUS</username>
+       	<password>PASSWORD_FOR_NEXUS</password>
+      </server>
+    </servers>
+
 ***Issues with running in Windows***
 
 When running the above command in Windows, it hands after the git push. This is because of the ssh key passphrase not being entered. As a work around to this do the following on a command prompt.
