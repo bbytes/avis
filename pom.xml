@@ -19,9 +19,9 @@
 
 	<distributionManagement>
 		<repository>
-			<id>nexus</id>
-			<name>nexus</name>
-			<url>http://203.196.144.234:8181/nexus/content/groups/public/</url>
+			<id>releases</id>
+			<name>Releases</name>
+			<url>http://203.196.144.234:8181/nexus/content/repositories/releases/</url>
 		</repository>
 	</distributionManagement>
 	<developers>
