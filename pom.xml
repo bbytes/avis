@@ -19,8 +19,8 @@
 
 	<distributionManagement>
 		<repository>
-			<id>public</id>
-			<name>Public Repositories</name>
+			<id>deploymentRepo</id>
+			<name>deploymentRepo</name>
 			<url>http://203.196.144.234:8181/nexus/content/groups/public/</url>
 			<snapshots>
 				<enabled>false</enabled>
