@@ -65,4 +65,14 @@ public class DefaultAvisClientImpl implements AvisClient {
 		}
 		rabbitOperations.convertAndSend(queueName, request);
 	}
+
+	@Override
+	public String getMessageQueueServerHost() {
+		return rabbitConnectionFactory.getHost();
+	}
+
+	@Override
+	public int getMessageQueueServerPort() {
+		return rabbitConnectionFactory.getPort();
+	}
 }
