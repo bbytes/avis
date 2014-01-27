@@ -4,9 +4,9 @@
 
 Avis project is a client-server project, where the client can be used by 3rd party application who wish to send notifications. It has 3 sub-projects under the main parent Maven project. Client and Server sit on either side of a RabbitMQ messaging server. Server looks for notifications in different queues based on the implementations given.
 
-**Current Stable Release Version  - 0.0.1**
+**Current Stable Release Version  - 0.0.8**
 
-**Current Development Version  - 0.0.2-SNAPSHOT**
+**Current Development Version  - 0.0.9-SNAPSHOT**
 
 ## Server ##
 
