@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.bbytes</groupId>
 	<artifactId>avis</artifactId>
-	<version>0.0.8</version>
+	<version>0.0.9-SNAPSHOT</version>
 	<name>avis</name>
 	<packaging>pom</packaging>
 
