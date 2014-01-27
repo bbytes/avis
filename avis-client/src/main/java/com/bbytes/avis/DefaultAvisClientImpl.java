@@ -1,6 +1,7 @@
 package com.bbytes.avis;
 
 import org.apache.log4j.Logger;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitOperations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,9 @@ public class DefaultAvisClientImpl implements AvisClient {
 
 	@Autowired
 	private RabbitOperations rabbitOperations;
+	
+	@Autowired
+	private CachingConnectionFactory rabbitConnectionFactory;
 
 	/*
 	 * (non-Javadoc)
@@ -37,6 +41,7 @@ public class DefaultAvisClientImpl implements AvisClient {
 			LOG.error(message);
 			throw new AvisClientException(message);
 		}
+		LOG.debug(String.format("Sending Notification to the queue %s on rabbitmq server %s on port %s ", request.getQueueName(), rabbitConnectionFactory.getHost(), rabbitConnectionFactory.getPort()));
 		rabbitOperations.convertAndSend(request.getQueueName(), request);
 	}
 
