@@ -20,7 +20,7 @@
 	<distributionManagement>
 		<repository>
 			<id>releases</id>
-			<url>http://203.196.144.234:8181/nexus/content/repositories/releases</url>
+			<url>http://repo.beyondbytes.co.in:8181/nexus/content/repositories/releases</url>
 		</repository>
 	</distributionManagement>
 	<developers>
