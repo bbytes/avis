@@ -143,7 +143,7 @@ Running the maven release plugin, requires the user to have ssh_keys in his/her 
 
 To upgrade the version and cut a release build - run the following commands on command prompt
 
-     mvn release:prepare -DdryRun=true -Dargument="-DskipTests=true" 
+     mvn release:prepare -DdryRun=true -Darguments="-DskipTests=true" 
 
 This will walk you through a dry run and you can view the temporary POMs it creates to verify you did everything correctly. It is not mandatory to do this, if you are confident. It also skips the test execution
     
