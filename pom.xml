@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.bbytes</groupId>
 	<artifactId>avis</artifactId>
@@ -15,12 +16,18 @@
 		<connection>scm:git:ssh://github.com/bbytes/avis.git</connection>
 		<developerConnection>scm:git:git+ssh://git@github.com/bbytes/avis.git</developerConnection>
 	</scm>
-
+	<repositories>
+		<!-- For the GCM Jar as it is not available in other public repos -->
+		<repository>
+			<id>thirdparty</id>
+			<url>http://repo.beyondbytes.co.in:8181/nexus/content/repositories/thirdparty/</url>
+		</repository>
+	</repositories>
 
 	<distributionManagement>
 		<repository>
 			<id>releases</id>
-			<url>http://203.196.144.234:8181/nexus/content/repositories/releases</url>
+			<url>http://repo.beyondbytes.co.in:8181/nexus/content/repositories/releases</url>
 		</repository>
 	</distributionManagement>
 	<developers>
