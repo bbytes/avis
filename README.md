@@ -143,11 +143,11 @@ Running the maven release plugin, requires the user to have ssh_keys in his/her 
 
 To upgrade the version and cut a release build - run the following commands on command prompt
 
-     mvn release:prepare -DdryRun=true -Dargument="-DskipTests=true" 
+     mvn release:prepare -DdryRun=true -Darguments="-DskipTests=true" 
 
 This will walk you through a dry run and you can view the temporary POMs it creates to verify you did everything correctly. It is not mandatory to do this, if you are confident. It also skips the test execution
     
-    mvn release:clean release:prepare -Dargument="-DskipTests=true"
+    mvn release:clean release:prepare -Darguments="-DskipTests=true"
 
 This will actually commit a tag with non-snapshot versions of your project and also increment all your versions to the next release. So for example, if your current version is 0.0.1-SNAPSHOT, it will commit a tag with 0.0.1 version, and update the trunk POMs with 0.0.2-SNAPSHOT. Of course when using the prepare goal you are prompted for the release numbers and next release numbers. Please note, you need to add `git` command in the path to run this.
 
