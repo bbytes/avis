@@ -42,7 +42,13 @@ public class DefaultAvisClientImpl implements AvisClient {
 			throw new AvisClientException(message);
 		}
 		LOG.debug(String.format("Sending Notification to the queue %s on rabbitmq server %s on port %s ", request.getQueueName(), rabbitConnectionFactory.getHost(), rabbitConnectionFactory.getPort()));
-		rabbitOperations.convertAndSend(request.getQueueName(), request);
+		try {
+		  rabbitOperations.convertAndSend(request.getQueueName(), request);
+		}
+		catch (Exception e) {
+		  LOG.error(e.getMessage());
+		  throw new AvisClientException(e.getMessage());
+        }
 	}
 
 	/*
@@ -63,7 +69,13 @@ public class DefaultAvisClientImpl implements AvisClient {
 			LOG.error(message);
 			throw new AvisClientException(message);
 		}
-		rabbitOperations.convertAndSend(queueName, request);
+		try {
+		  rabbitOperations.convertAndSend(queueName, request);
+		}
+        catch (Exception e) {
+          LOG.error(e.getMessage());
+          throw new AvisClientException(e.getMessage());
+        }
 	}
 
 	@Override
