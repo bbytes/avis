@@ -48,7 +48,7 @@
 		<compiler.source.version>1.7</compiler.source.version>
 		<compiler.target.version>1.7</compiler.target.version>
 		<spring.version>3.2.0.RELEASE</spring.version>
-		<spring.amqp.version>1.2.0.RELEASE</spring.amqp.version>
+		<spring.amqp.version>1.2.1.RELEASE</spring.amqp.version>
 		<gcm.version>1.0.2</gcm.version>
 	</properties>
 
