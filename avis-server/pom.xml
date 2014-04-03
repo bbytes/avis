@@ -78,5 +78,9 @@
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
         </dependency>
+        <dependency>
+			<groupId>pircbot</groupId>
+			<artifactId>pircbot</artifactId>
+		</dependency>
 	</dependencies>
 </project>
