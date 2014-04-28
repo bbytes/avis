@@ -26,7 +26,7 @@ import com.google.android.gcm.server.Sender;
  */
 public class GcmPushNotifierImpl extends AbstractNotifier implements Notifier {
 
-	private Logger LOG = Logger.getLogger(MailNotifierImpl.class);
+	private Logger LOG = Logger.getLogger(GcmPushNotifierImpl.class);
 	
 	private String apiKey;
 	
