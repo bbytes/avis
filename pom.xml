@@ -86,11 +86,11 @@
 			<name>S3 Release Repository</name>
 			<url>s3://beyondbytes-maven-releases/release</url>
 		</repository>
-		<repository>
+		<snapshotRepository>
 			<id>maven-s3-snapshot-repo</id>
 			<name>S3 Snapshot Repository</name>
 			<url>s3://beyondbytes-maven-snapshots/snapshot</url>
-		</repository>
+		</snapshotRepository>
 	</distributionManagement>
 	<developers>
 		<developer>
