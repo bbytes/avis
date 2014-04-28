@@ -59,5 +59,11 @@
 		<property name="senderId" value="${gcm.sender.id}"></property>
 	</bean>
 	
+	<bean id="ircNotifier" class="com.bbytes.avis.notifications.IrcNotifierImpl"
+		parent="abstractNotifier">
+		<property name="requestQueueName" value="${queue.irc.request}"></property>
+		<property name="replyQueueName" value="${queue.irc.reply}"></property>
+	</bean>
+	
 
 </beans>

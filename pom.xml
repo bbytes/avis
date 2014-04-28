@@ -215,6 +215,12 @@
 				<artifactId>avis-domain</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>pircbot</groupId>
+				<artifactId>pircbot</artifactId>
+				<version>1.5.0</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

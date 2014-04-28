@@ -9,5 +9,5 @@ package com.bbytes.avis;
  */
 public enum NotificationType {
 	
-	EMAIL, GCM_NOTIFY, SMS
+	EMAIL, GCM_NOTIFY, SMS, IRC
 }
