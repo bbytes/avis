@@ -21,9 +21,13 @@
 		<!-- <repository> <id>thirdparty</id> <url>http://repo.beyondbytes.co.in:8181/nexus/content/repositories/thirdparty/</url> 
 			</repository> -->
 		<repository>
+			<id>gcm-maven-repository</id>
+			<url>https://raw.github.com/4impact/gcm-maven-repository/master/releases/</url>
+		</repository>
+		<repository>
 			<id>maven-s3-release-repo</id>
 			<name>S3 Release Repository</name>
-			<url>s3://beyondbytes-maven-releases/release</url>
+			<url>s3://beyondbytes-maven/release</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -34,7 +38,7 @@
 		<repository>
 			<id>maven-s3-snapshot-repo</id>
 			<name>S3 Snapshot Repository</name>
-			<url>s3://beyondbytes-maven-snapshots/snapshot</url>
+			<url>s3://beyondbytes-maven/snapshot</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -48,7 +52,7 @@
 		<pluginRepository>
 			<id>maven-s3-release-repo</id>
 			<name>S3 Release Repository</name>
-			<url>s3://beyondbytes-maven-releases/release</url>
+			<url>s3://beyondbytes-maven/release</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -59,7 +63,7 @@
 		<pluginRepository>
 			<id>maven-s3-snapshot-repo</id>
 			<name>S3 Snapshot Repository</name>
-			<url>s3://beyondbytes-maven-snapshots/snapshot</url>
+			<url>s3://beyondbytes-maven/snapshot</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -75,12 +79,12 @@
 		<repository>
 			<id>maven-s3-release-repo</id>
 			<name>S3 Release Repository</name>
-			<url>s3://beyondbytes-maven-releases/release</url>
+			<url>s3://beyondbytes-maven/release</url>
 		</repository>
 		<snapshotRepository>
 			<id>maven-s3-snapshot-repo</id>
 			<name>S3 Snapshot Repository</name>
-			<url>s3://beyondbytes-maven-snapshots/snapshot</url>
+			<url>s3://beyondbytes-maven/snapshot</url>
 		</snapshotRepository>
 	</distributionManagement>
 	<developers>
