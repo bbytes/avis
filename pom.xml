@@ -11,15 +11,6 @@
 		Avis is a multi purpose messaging framework based on queueing strategy
 	</description>
 
-	<build>
-		<extensions>
-			<extension>
-				<groupId>org.springframework.build.aws</groupId>
-				<artifactId>org.springframework.build.aws.maven</artifactId>
-				<version>3.0.0.RELEASE</version>
-			</extension>
-		</extensions>
-	</build>
 	<scm>
 		<url>https://github.com/bbytes/avis</url>
 		<connection>scm:git:ssh://github.com/bbytes/avis.git</connection>
@@ -215,7 +206,7 @@
 				<artifactId>avis-domain</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>pircbot</groupId>
 				<artifactId>pircbot</artifactId>
@@ -225,6 +216,13 @@
 	</dependencyManagement>
 
 	<build>
+		<extensions>
+			<extension>
+				<groupId>org.springframework.build.aws</groupId>
+				<artifactId>org.springframework.build.aws.maven</artifactId>
+				<version>3.0.0.RELEASE</version>
+			</extension>
+		</extensions>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
