@@ -3,6 +3,7 @@ package com.bbytes.avis.notifications;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
@@ -11,7 +12,6 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 
 import com.bbytes.avis.AbstractNotifier;
 import com.bbytes.avis.NotificationData;
@@ -92,30 +92,37 @@ public class MailNotifierImpl extends AbstractNotifier implements Notifier {
 	 * Sends the email
 	 * 
 	 * @param emailData
+	 * @throws MessagingException
 	 */
-	private void sendHtmlEmail(final EmailData emailData) throws MailException {
+	private void sendHtmlEmail(final EmailData emailData) throws MailException, MessagingException {
 		LOG.debug("Beginning to send an HTML email to " + emailData.getTo());
-		MimeMessagePreparator preparator = new MimeMessagePreparator() {
-			public void prepare(MimeMessage mimeMessage) throws Exception {
-				MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true);
-				message.setTo(emailData.getTo());
-				if (emailData.getFrom() != null) {
-					message.setFrom(emailData.getFrom());
-				}
-				if (emailData.getCc() != null && emailData.getCc().length > 0) {
-					message.setCc(emailData.getCc());
-				}
-				if (emailData.getBcc() != null && emailData.getBcc().length > 0) {
-					message.setBcc(emailData.getBcc());
-				}
-				message.setSentDate(new Date());
-				message.setSubject(emailData.getSubject());
-				mimeMessage.setContent(emailData.getText(), "text/html");
-			}
-		};
+
+		MimeMessage mimeMessage = mailSender.createMimeMessage();
 		try {
-			mailSender.send(preparator);
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+			helper.setTo(emailData.getTo());
+			if (emailData.getFrom() != null) {
+				helper.setFrom(emailData.getFrom());
+			}
+			if (emailData.getCc() != null && emailData.getCc().length > 0) {
+				helper.setCc(emailData.getCc());
+			}
+			if (emailData.getBcc() != null && emailData.getBcc().length > 0) {
+				helper.setBcc(emailData.getBcc());
+			}
+			
+			helper.setSentDate(new Date());
+			helper.setSubject(emailData.getSubject());
+			helper.setText(emailData.getText(), emailData.getText());
+			if (emailData.getAttachment() != null) {
+				helper.addAttachment(emailData.getAttachment().getName(), emailData.getAttachment());
+			}
+			mailSender.send(mimeMessage);
 		} catch (MailException e) {
+			LOG.error(e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (MessagingException e) {
 			LOG.error(e.getMessage());
 			e.printStackTrace();
 			throw e;

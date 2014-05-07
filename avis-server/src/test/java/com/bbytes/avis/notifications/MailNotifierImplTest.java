@@ -1,6 +1,11 @@
 package com.bbytes.avis.notifications;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.UUID;
 
 import org.junit.Before;
@@ -53,10 +58,23 @@ public class MailNotifierImplTest {
 	}
 
 	@Test
-	public void testSendNotificationHTML() throws AvisException {
+	public void testSendNotificationHTML() throws AvisException, IOException {
 		NotificationData<String, Serializable> requestData = request.getData();
 		EmailData data = (EmailData) requestData.get(NotificationType.EMAIL.toString());
 		data.setHtmlEmail(true);
+		String content = "This is the attachment. <h1>Hello World, This is Sparta!! </h1>";
+		 
+		File file = new File(System.getProperty("java.io.tmpdir")+File.separator+"testAttach"+new Date().getTime()+".txt");
+		if (!file.exists()) {
+			file.createNewFile();
+		}
+
+		FileWriter fw = new FileWriter(file.getAbsoluteFile());
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.write(content);
+		bw.close();
+
+		data.setAttachment(file);
 		data.setText("<h1>Hello World, This is Sparta!! </h1>");
 		requestData.put(NotificationType.EMAIL.toString(), data);
 		request.setData(requestData);
