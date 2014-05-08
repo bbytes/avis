@@ -1,6 +1,12 @@
 package com.bbytes.avis;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.UUID;
 
 import org.junit.After;
@@ -32,7 +38,7 @@ public class DefaultAvisClientTest {
 		request = new NotificationRequest();
 		request.setId(UUID.randomUUID().toString());
 		request.setNotificationType(NotificationType.EMAIL);
-		request.setQueueName("avis.email.queue");
+		request.setQueueName("endure.email.queue");
 		NotificationData<String, Serializable> requestData = new NotificationData<>();
 		EmailData data = new EmailData();
 		data.setTo(new String[]{"dhanush@beyondbytes.co.in"});
@@ -50,7 +56,33 @@ public class DefaultAvisClientTest {
 	public void testClient() throws AvisClientException  {
 		avisClient.sendNotification(request);
 	}
+	
+	@Test
+	public void testClientWithAttachment() throws AvisClientException, IOException  {
+		NotificationData<String, Serializable> requestData = request.getData();
+		EmailData data = (EmailData) requestData.get(NotificationType.EMAIL.toString());
+		data.setHtmlEmail(true);
+		String content = "This is the attachment. <h1>Hello World, This is Sparta!! </h1>";
+		 
+		File file = new File(System.getProperty("java.io.tmpdir")+File.separator+"testAttach"+new Date().getTime()+".txt");
+		if (!file.exists()) {
+			file.createNewFile();
+		}
 
+		FileWriter fw = new FileWriter(file.getAbsoluteFile());
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.write(content);
+		bw.close();
+
+		data.setAttachment(file);
+
+		requestData.put(NotificationType.EMAIL.toString(), data);
+		request.setData(requestData);
+		
+		avisClient.sendNotification(request);
+	}
+	
+	
 	@Test(expected=AvisClientException.class)
 	public void testClientNull() throws AvisClientException  {
 		avisClient.sendNotification(null);
