@@ -99,7 +99,7 @@ public class MailNotifierImpl extends AbstractNotifier implements Notifier {
 	 * @throws MessagingException
 	 * @throws IOException
 	 */
-	private void sendHtmlEmail(final EmailData emailData) throws MailException, MessagingException, IOException {
+	private void sendHtmlEmail(final EmailData emailData) throws MailException, MessagingException {
 		LOG.debug("Beginning to send an HTML email to " + emailData.getTo());
 
 		MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -120,8 +120,8 @@ public class MailNotifierImpl extends AbstractNotifier implements Notifier {
 			helper.setSubject(emailData.getSubject());
 			helper.setText(emailData.getText(), emailData.getText());
 			if (emailData.getAttachment() != null) {
-				InputStream stream = emailData.getAttachment();
-				ByteArrayResource resource = new ByteArrayResource(IOUtils.toByteArray(stream));
+				byte[] stream = emailData.getAttachment();
+				ByteArrayResource resource = new ByteArrayResource(stream);
 				helper.addAttachment(emailData.getAttachmentFileName(), resource);
 			}
 			mailSender.send(mimeMessage);
@@ -129,9 +129,6 @@ public class MailNotifierImpl extends AbstractNotifier implements Notifier {
 			LOG.error(e.getMessage());
 			throw e;
 		} catch (MessagingException e) {
-			LOG.error(e.getMessage());
-			throw e;
-		} catch (IOException e) {
 			LOG.error(e.getMessage());
 			throw e;
 		}

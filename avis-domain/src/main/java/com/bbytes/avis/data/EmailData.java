@@ -46,7 +46,7 @@ public class EmailData implements Serializable {
 	
 	private boolean htmlEmail;
 	
-	private InputStream attachment;
+	private byte[] attachment;
 	
 	private String attachmentFileName;
 	
@@ -187,14 +187,14 @@ public class EmailData implements Serializable {
 	/**
 	 * @return the attachment
 	 */
-	public InputStream getAttachment() {
+	public byte[] getAttachment() {
 		return attachment;
 	}
 
 	/**
 	 * @param attachment the attachment to set
 	 */
-	public void setAttachment(InputStream attachment) {
+	public void setAttachment(byte[] attachment) {
 		this.attachment = attachment;
 	}
 

@@ -3,12 +3,14 @@ package com.bbytes.avis.notifications;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,7 +49,7 @@ public class MailNotifierImplTest {
 		EmailData data = new EmailData();
 		data.setFrom("endure@endure.com");
 		data.setTo(new String[] { "dhanush@beyondbytes.co.in" });
-		data.setSubject("Test Email From Avis");
+		data.setSubject("Test Email From Avis Server: MailNotifier");
 		data.setText("This is a test email from avis");
 		requestData.put(NotificationType.EMAIL.toString(), data);
 		request.setData(requestData);
@@ -64,9 +66,25 @@ public class MailNotifierImplTest {
 		EmailData data = (EmailData) requestData.get(NotificationType.EMAIL.toString());
 		data.setHtmlEmail(true);
 		data.setAttachmentFileName("attach.txt");
+		File file = createTempFile();
+		byte[] bFile = convertFileToByteArray(file);
+		data.setAttachment(bFile);
+		data.setText("<h1>Hello World, This is Sparta!! </h1>");
+		requestData.put(NotificationType.EMAIL.toString(), data);
+		request.setData(requestData);
+		mailNotifier.sendNotification(request);
+	}
+
+	protected byte[] convertFileToByteArray(File file) throws FileNotFoundException, IOException {
+		FileInputStream fileInputStream = new FileInputStream(file);
+		return IOUtils.toByteArray(fileInputStream);
+	}
+
+	protected File createTempFile() throws IOException {
 		String content = "This is the attachment. <h1>Hello World, This is Sparta!! </h1>";
-		 
-		File file = new File(System.getProperty("java.io.tmpdir")+File.separator+"testAttach"+new Date().getTime()+".txt");
+
+		File file = new File(System.getProperty("java.io.tmpdir") + File.separator + "testAttach"
+				+ new Date().getTime() + ".txt");
 		if (!file.exists()) {
 			file.createNewFile();
 		}
@@ -75,12 +93,6 @@ public class MailNotifierImplTest {
 		BufferedWriter bw = new BufferedWriter(fw);
 		bw.write(content);
 		bw.close();
-
-		data.setAttachment(new FileInputStream(file));
-		data.setText("<h1>Hello World, This is Sparta!! </h1>");
-		requestData.put(NotificationType.EMAIL.toString(), data);
-		request.setData(requestData);
-		mailNotifier.sendNotification(request);
+		return file;
 	}
-
 }
