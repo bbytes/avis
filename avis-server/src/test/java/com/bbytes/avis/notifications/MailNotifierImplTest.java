@@ -2,6 +2,7 @@ package com.bbytes.avis.notifications;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
@@ -62,6 +63,7 @@ public class MailNotifierImplTest {
 		NotificationData<String, Serializable> requestData = request.getData();
 		EmailData data = (EmailData) requestData.get(NotificationType.EMAIL.toString());
 		data.setHtmlEmail(true);
+		data.setAttachmentFileName("attach.txt");
 		String content = "This is the attachment. <h1>Hello World, This is Sparta!! </h1>";
 		 
 		File file = new File(System.getProperty("java.io.tmpdir")+File.separator+"testAttach"+new Date().getTime()+".txt");
@@ -74,7 +76,7 @@ public class MailNotifierImplTest {
 		bw.write(content);
 		bw.close();
 
-		data.setAttachment(file);
+		data.setAttachment(new FileInputStream(file));
 		data.setText("<h1>Hello World, This is Sparta!! </h1>");
 		requestData.put(NotificationType.EMAIL.toString(), data);
 		request.setData(requestData);

@@ -1,6 +1,7 @@
 package com.bbytes.avis.data;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -45,7 +46,9 @@ public class EmailData implements Serializable {
 	
 	private boolean htmlEmail;
 	
-	private File attachment;
+	private InputStream attachment;
+	
+	private String attachmentFileName;
 	
 	/**
 	 * @return the from
@@ -184,15 +187,29 @@ public class EmailData implements Serializable {
 	/**
 	 * @return the attachment
 	 */
-	public File getAttachment() {
+	public InputStream getAttachment() {
 		return attachment;
 	}
 
 	/**
 	 * @param attachment the attachment to set
 	 */
-	public void setAttachment(File attachment) {
+	public void setAttachment(InputStream attachment) {
 		this.attachment = attachment;
+	}
+
+	/**
+	 * @return the attachmentFileName
+	 */
+	public String getAttachmentFileName() {
+		return attachmentFileName;
+	}
+
+	/**
+	 * @param attachmentFileName the attachmentFileName to set
+	 */
+	public void setAttachmentFileName(String attachmentFileName) {
+		this.attachmentFileName = attachmentFileName;
 	}
 
 }

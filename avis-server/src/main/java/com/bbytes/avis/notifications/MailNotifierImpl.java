@@ -1,13 +1,17 @@
 package com.bbytes.avis.notifications;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Date;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -93,8 +97,9 @@ public class MailNotifierImpl extends AbstractNotifier implements Notifier {
 	 * 
 	 * @param emailData
 	 * @throws MessagingException
+	 * @throws IOException
 	 */
-	private void sendHtmlEmail(final EmailData emailData) throws MailException, MessagingException {
+	private void sendHtmlEmail(final EmailData emailData) throws MailException, MessagingException, IOException {
 		LOG.debug("Beginning to send an HTML email to " + emailData.getTo());
 
 		MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -110,21 +115,24 @@ public class MailNotifierImpl extends AbstractNotifier implements Notifier {
 			if (emailData.getBcc() != null && emailData.getBcc().length > 0) {
 				helper.setBcc(emailData.getBcc());
 			}
-			
+
 			helper.setSentDate(new Date());
 			helper.setSubject(emailData.getSubject());
 			helper.setText(emailData.getText(), emailData.getText());
 			if (emailData.getAttachment() != null) {
-				helper.addAttachment(emailData.getAttachment().getName(), emailData.getAttachment());
+				InputStream stream = emailData.getAttachment();
+				ByteArrayResource resource = new ByteArrayResource(IOUtils.toByteArray(stream));
+				helper.addAttachment(emailData.getAttachmentFileName(), resource);
 			}
 			mailSender.send(mimeMessage);
 		} catch (MailException e) {
 			LOG.error(e.getMessage());
-			e.printStackTrace();
 			throw e;
 		} catch (MessagingException e) {
 			LOG.error(e.getMessage());
-			e.printStackTrace();
+			throw e;
+		} catch (IOException e) {
+			LOG.error(e.getMessage());
 			throw e;
 		}
 
