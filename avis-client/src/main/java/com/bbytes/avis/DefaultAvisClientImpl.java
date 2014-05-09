@@ -1,8 +1,13 @@
 package com.bbytes.avis;
 
+import java.util.Hashtable;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
+import org.springframework.amqp.core.MessageListener;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitOperations;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,9 +25,14 @@ public class DefaultAvisClientImpl implements AvisClient {
 
 	@Autowired
 	private RabbitOperations rabbitOperations;
-	
+
 	@Autowired
 	private CachingConnectionFactory rabbitConnectionFactory;
+
+	/**
+	 * A Map to hold the listeners that are added by client
+	 */
+	private Map<String, SimpleMessageListenerContainer> messageListenerMaps = new Hashtable<>();
 
 	/*
 	 * (non-Javadoc)
@@ -41,14 +51,15 @@ public class DefaultAvisClientImpl implements AvisClient {
 			LOG.error(message);
 			throw new AvisClientException(message);
 		}
-		LOG.debug(String.format("Sending Notification to the queue %s on rabbitmq server %s on port %s ", request.getQueueName(), rabbitConnectionFactory.getHost(), rabbitConnectionFactory.getPort()));
+		LOG.debug(String.format("Sending Notification to the queue %s on rabbitmq server %s on port %s ",
+				request.getQueueName(), rabbitConnectionFactory.getHost(), rabbitConnectionFactory.getPort()));
 		try {
-		  rabbitOperations.convertAndSend(request.getQueueName(), request);
+			rabbitOperations.convertAndSend(request.getQueueName(), request);
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+			throw new AvisClientException(e.getMessage());
 		}
-		catch (Exception e) {
-		  LOG.error(e.getMessage());
-		  throw new AvisClientException(e.getMessage());
-        }
+
 	}
 
 	/*
@@ -70,12 +81,11 @@ public class DefaultAvisClientImpl implements AvisClient {
 			throw new AvisClientException(message);
 		}
 		try {
-		  rabbitOperations.convertAndSend(queueName, request);
+			rabbitOperations.convertAndSend(queueName, request);
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+			throw new AvisClientException(e.getMessage());
 		}
-        catch (Exception e) {
-          LOG.error(e.getMessage());
-          throw new AvisClientException(e.getMessage());
-        }
 	}
 
 	@Override
@@ -86,5 +96,29 @@ public class DefaultAvisClientImpl implements AvisClient {
 	@Override
 	public int getMessageQueueServerPort() {
 		return rabbitConnectionFactory.getPort();
+	}
+
+	@Override
+	public void addMessageListener(MessageListener listener, String replyQueueName) throws AvisClientException {
+		if (!messageListenerMaps.containsKey(replyQueueName)) {
+			SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+			container.setConnectionFactory(rabbitConnectionFactory);
+			container.setQueueNames(replyQueueName);
+			container.setMessageListener(listener);
+			container.start();
+		} else {
+			SimpleMessageListenerContainer container = messageListenerMaps.get(replyQueueName);
+			if (!container.isRunning()) {
+				container.start();
+			}
+		}
+	}
+
+	@Override
+	public void removeMessageListener(String replyQueueName) throws AvisClientException {
+		if (messageListenerMaps.containsKey(replyQueueName)) {
+			SimpleMessageListenerContainer container = messageListenerMaps.remove(replyQueueName);
+			container.shutdown();
+		}
 	}
 }

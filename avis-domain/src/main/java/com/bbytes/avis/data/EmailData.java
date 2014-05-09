@@ -1,7 +1,5 @@
 package com.bbytes.avis.data;
 
-import java.io.File;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Date;
 

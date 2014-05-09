@@ -15,6 +15,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -34,6 +36,8 @@ public class DefaultAvisClientTest {
 	@Autowired
 	private AvisClient avisClient;
 	private NotificationRequest request;
+	
+	private String messageReceived = null;
 
 	@Before
 	public void setup() {
@@ -80,6 +84,37 @@ public class DefaultAvisClientTest {
 	public void testClientNull() throws AvisClientException {
 		avisClient.sendNotification(null);
 	}
+	
+
+	@Test
+	public void testClientForTestImp() throws AvisClientException, InterruptedException {
+		
+		NotificationRequest request = new NotificationRequest();
+		request.setId(UUID.randomUUID().toString());
+		request.setNotificationType(NotificationType.EMAIL);
+		request.setQueueName("endure.test.queue");
+		NotificationData<String, Serializable> requestData = new NotificationData<>();
+		requestData.put(NotificationType.TEST.toString(), "Hello Bob");
+		request.setData(requestData);
+		boolean mRecieved = false;
+		avisClient.addMessageListener(new MessageListener() {
+			
+			@Override
+			public void onMessage(Message message) {
+				
+				System.out.println("Reply receiveid" + message.toString());
+				messageReceived = message.toString();
+				
+			}
+		}, "endure.test.queue.reply");
+		
+		avisClient.sendNotification(request);
+		while(messageReceived == null) {
+			Thread.sleep(1000);
+		}
+		
+	}
+	
 
 	protected byte[] convertFileToByteArray(File file) throws FileNotFoundException, IOException {
 		FileInputStream fileInputStream = new FileInputStream(file);

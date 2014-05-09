@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd">
 
-	
+
 	<context:spring-configured />
 	<context:annotation-config />
 
@@ -31,12 +31,9 @@
 		scheduler="scheduler" />
 
 
-<!-- 	<bean id="notificationExecutor"
-		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-		<property name="corePoolSize" value="10" />
-		<property name="maxPoolSize" value="100" />
-		<property name="queueCapacity" value="10" />
-	</bean> -->
+	<!-- <bean id="notificationExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"> 
+		<property name="corePoolSize" value="10" /> <property name="maxPoolSize" 
+		value="100" /> <property name="queueCapacity" value="10" /> </bean> -->
 
 	<import resource="rabbitmq-context.xml" />
 	<import resource="notification-context.xml" />
@@ -51,6 +48,13 @@
 		<property name="replyQueueName" value="${queue.email.reply}"></property>
 	</bean>
 
+
+	<bean id="testNotifier" class="com.bbytes.avis.notifications.TestNotifierImpl"
+		parent="abstractNotifier">
+		<property name="requestQueueName" value="${queue.test.request}"></property>
+		<property name="replyQueueName" value="${queue.test.reply}"></property>
+	</bean>
+
 	<bean id="gcmPushNotifier" class="com.bbytes.avis.notifications.GcmPushNotifierImpl"
 		parent="abstractNotifier">
 		<property name="requestQueueName" value="${queue.gcm.request}"></property>
@@ -58,12 +62,12 @@
 		<property name="apiKey" value="${gcm.api.key}"></property>
 		<property name="senderId" value="${gcm.sender.id}"></property>
 	</bean>
-	
+
 	<bean id="ircNotifier" class="com.bbytes.avis.notifications.IrcNotifierImpl"
 		parent="abstractNotifier">
 		<property name="requestQueueName" value="${queue.irc.request}"></property>
 		<property name="replyQueueName" value="${queue.irc.reply}"></property>
 	</bean>
-	
+
 
 </beans>
