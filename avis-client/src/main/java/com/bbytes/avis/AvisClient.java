@@ -1,6 +1,5 @@
 package com.bbytes.avis;
 
-import org.springframework.amqp.core.MessageListener;
 
 /**
  * Interface for the avis client
@@ -45,14 +44,14 @@ public interface AvisClient {
 	int getMessageQueueServerPort();
 
 	/**
-	 * Adds a message listener to the reply queue to get the message replied by Avis Server
+	 * Adds a response listener to the reply queue to get the message replied by Avis Server
 	 * 
 	 * @param listener
 	 * @param replyQueueName
 	 * 
 	 * @throws AvisClientException
 	 */
-	void addMessageListener(MessageListener listener, String replyQueueName) throws AvisClientException;
+	void addMessageListener(AvisResponseListener listener, String replyQueueName) throws AvisClientException;
 	
 	/**
 	 * Removes the message listener for the queue

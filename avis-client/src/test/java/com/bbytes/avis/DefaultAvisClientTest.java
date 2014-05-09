@@ -1,5 +1,7 @@
 package com.bbytes.avis;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,8 +17,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -36,8 +36,8 @@ public class DefaultAvisClientTest {
 	@Autowired
 	private AvisClient avisClient;
 	private NotificationRequest request;
-	
-	private String messageReceived = null;
+
+	private boolean messageReceived = false;
 
 	@Before
 	public void setup() {
@@ -84,11 +84,10 @@ public class DefaultAvisClientTest {
 	public void testClientNull() throws AvisClientException {
 		avisClient.sendNotification(null);
 	}
-	
 
 	@Test
 	public void testClientForTestImp() throws AvisClientException, InterruptedException {
-		
+
 		NotificationRequest request = new NotificationRequest();
 		request.setId(UUID.randomUUID().toString());
 		request.setNotificationType(NotificationType.EMAIL);
@@ -96,25 +95,22 @@ public class DefaultAvisClientTest {
 		NotificationData<String, Serializable> requestData = new NotificationData<>();
 		requestData.put(NotificationType.TEST.toString(), "Hello Bob");
 		request.setData(requestData);
-		boolean mRecieved = false;
-		avisClient.addMessageListener(new MessageListener() {
-			
+		avisClient.addMessageListener(new AvisResponseListener() {
+
 			@Override
-			public void onMessage(Message message) {
-				
-				System.out.println("Reply receiveid" + message.toString());
-				messageReceived = message.toString();
-				
+			public void handleResponse(NotificationResponse response) throws AvisClientException {
+				assertNotNull(response);
+				messageReceived = true;
+				System.out.println(response.toString());
 			}
 		}, "endure.test.queue.reply");
-		
+
 		avisClient.sendNotification(request);
-		while(messageReceived == null) {
-			Thread.sleep(1000);
+		while (!messageReceived ) {
+			Thread.sleep(3000);
 		}
-		
+
 	}
-	
 
 	protected byte[] convertFileToByteArray(File file) throws FileNotFoundException, IOException {
 		FileInputStream fileInputStream = new FileInputStream(file);

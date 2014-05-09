@@ -4,9 +4,11 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitOperations;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -99,13 +101,15 @@ public class DefaultAvisClientImpl implements AvisClient {
 	}
 
 	@Override
-	public void addMessageListener(MessageListener listener, String replyQueueName) throws AvisClientException {
+	public void addMessageListener(final AvisResponseListener listener, String replyQueueName)
+			throws AvisClientException {
 		if (!messageListenerMaps.containsKey(replyQueueName)) {
 			SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
 			container.setConnectionFactory(rabbitConnectionFactory);
 			container.setQueueNames(replyQueueName);
-			container.setMessageListener(listener);
+			container.setMessageListener(new MessageListenerImpl(listener));
 			container.start();
+			messageListenerMaps.put(replyQueueName, container);
 		} else {
 			SimpleMessageListenerContainer container = messageListenerMaps.get(replyQueueName);
 			if (!container.isRunning()) {
@@ -119,6 +123,35 @@ public class DefaultAvisClientImpl implements AvisClient {
 		if (messageListenerMaps.containsKey(replyQueueName)) {
 			SimpleMessageListenerContainer container = messageListenerMaps.remove(replyQueueName);
 			container.shutdown();
+		}
+	}
+
+	/**
+	 * Default implementation of {@link MessageListener} which will convert the {@link Message}
+	 * object to {@link NotificationResponse}
+	 * 
+	 * @author Dhanush Gopinath
+	 * 
+	 * @version
+	 */
+	private class MessageListenerImpl implements MessageListener {
+
+		private AvisResponseListener responseListener;
+
+		public MessageListenerImpl(AvisResponseListener listener) {
+			super();
+			this.responseListener = listener;
+		}
+
+		@Override
+		public void onMessage(Message message) {
+			NotificationResponse response = (NotificationResponse) ((RabbitTemplate) rabbitOperations)
+					.getMessageConverter().fromMessage(message);
+			try {
+				responseListener.handleResponse(response);
+			} catch (AvisClientException e) {
+				LOG.error(e.getMessage());
+			}
 		}
 	}
 }
